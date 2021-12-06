@@ -45,9 +45,90 @@ int main()
 	socket_descriptor = socket(PF_INET, SOCK_STREAM, 0);
 	if (socket_descriptor == INVALID_SOCKET)
 	{
-
+		cout << "Socket creation failed : " << WSAGetLastError() << endl;
+		cout << "Socket Descriptor : " << socket_descriptor;
 	}
-	
+	struct sockaddr_in {
+		short sin_family;
+		u_short sin_port;
+		struct in_addr sin_addr;
+		char sin_zero[8];
+	};
+
+	struct hostent {
+		char FAR* h_name;
+		char FAR* FAR* h_aliases;
+		short h_addrtype;
+		short h_length;
+		char FAR* FAR* h_addr_list;
+	};
+
+	memset(&sin, 0, sizeof(sin));
+	sin.sin_family = AF_INET;
+	sin.sin_port = htons(4984);
+
+	strcpy_s(ServerName, "localhost");
+
+	printf("Gethostbyname(\"%s\")\n", ServerName);
+	if (pHostEnt = gethostbyname(ServerName))
+	{
+		memcpy(&sin.sin_addr, pHostEnt->h_addr_list[0], pHostEnt->h_length);
+		printf("Address Length : %d\n", pHostEnt->h_length);
+		printf("Host Address : %s\n", inet_ntoa(sin.sin_addr));
+		printf("Host Name : %s\n", pHostEnt->h_name);
+		printf("\n");
+	}
+	else
+	{
+		printf("Can't get %s\" host entry : %d\n", ServerName, WSAGetLastError());
+		WSACleanup();
+		return 0;
+	}
+	cout << "connect()\n";
+
+	retcode = connect(socket_descriptor, (struct sockaddr*)&sin, sizeof(sin));
+	if (retcode == SOCKET_ERROR)
+	{
+		cout << "Connect failed : " << WSAGetLastError();
+		return 0;
+	}
+	printf("Return Code : %d\n", retcode);
+	cout << endl;
+
+	cout << "send()\n";
+	retcode = send(socket_descriptor, Message, sizeof Message, 0);
+	if (retcode == SOCKET_ERROR)
+	{
+		cout << "Send failed : " << WSAGetLastError();
+		return 0;
+	}
+	printf("Bytes Sent : %d\n", retcode);
+	cout << endl;
+
+	cout << "recv()\n";
+
+	length = recv(socket_descriptor, Buffer, sizeof Buffer, 0);
+	if (length == SOCKET_ERROR)
+	{
+		 cout << "Receive failed : "<< WSAGetLastError();
+		 return 0;
+	}
+	printf("Bytes received : %d\n", length);
+	printf("Message : %s\n", Buffer);
+	cout << endl;
+
+	cout << "closesocket()\n";
+
+	retcode = closesocket(socket_descriptor);
+	if (retcode == SOCKET_ERROR)
+	{
+		cout << "Close socket failed : " << WSAGetLastError();
+		return 0;
+	}
+	printf("Return Code : %d\n", retcode);
+	cout << endl;
+
+
 }
 
 

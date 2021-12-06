@@ -1,0 +1,4 @@
+﻿  Source.cpp
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Client\Client\Header.h(6,1): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': macro redefinition
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Client\Client\Source.cpp : message : see previous definition of '_WINSOCK_DEPRECATED_NO_WARNINGS'
+  Client.vcxproj -> D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Client\Debug\Client.exe
