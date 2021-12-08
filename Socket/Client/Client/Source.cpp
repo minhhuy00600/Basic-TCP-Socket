@@ -116,8 +116,19 @@ int main()
 	}
 	printf("Bytes received : %d\n", length);
 	printf("Message : %s\n", Buffer);
-	cout << endl;
+	cout << endl << endl;
+	system("pause");
 
+	system("CLS");
+	
+	int i = 0;
+	while (true)
+	{
+		recv(socket_descriptor, Buffer, sizeof Buffer, 0);
+		cout << Buffer << endl;
+		i++;
+		if (i == 17)break;
+	}
 	cout << "closesocket()\n";
 
 	retcode = closesocket(socket_descriptor);

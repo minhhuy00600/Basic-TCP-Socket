@@ -1,5 +1,20 @@
 #include "Header.h"
 
+void truyvan_danhba(ifstream& f, SOCKET &new_socket) //Yeu cau 1
+{
+	f.open("thanhvien.txt", ios::app);
+	char temp[255];
+	while (!f.eof())
+	{
+		f.getline(temp, 255);
+		cout << temp << endl;
+		send(new_socket, temp, sizeof temp, 0);
+		Sleep(20);
+	}
+
+	f.close();
+}
+
 int main()
 {
 	WORD wVersionRequested;
@@ -18,6 +33,8 @@ int main()
 	char Buffer[4096];
 	int length;
 	char Message[] = "Message from the server.";
+
+	ifstream open; // doc file
 
 	cout << "Initializing Winsock... " << endl;
 
@@ -133,9 +150,34 @@ int main()
 		WSACleanup();
 		return 1;
 	}
-	cout << "Bytes Sent : " << retcode << endl;
+	cout << "Bytes Sent : " << retcode << endl << endl;
+	system("pause");
 
+	system("CLS");
+
+	// Code danh ba o day
+	while (true)
+	{
+		int key;
+		send(new_socket,
+			"Input number you want to do :\n1.Truy van thong tin danh ba. ",
+			sizeof "Input number you want to do :\n1.Truy van thong tin danh ba. ",
+			0);
+		recv(new_socket, Buffer, sizeof Buffer, 0);
+		key = int(Buffer);
+			if(key == 1)
+				{
+					truyvan_danhba(open, new_socket);
+				}
+			else
+				{
+					send(new_socket, "Your number you input is invalid !", sizeof "Your number you input is invalid !", 0);
+					break;
+				}
+		}
+	}
 	cout << "closesocket()" << endl << endl;
+
 	retcode = closesocket(new_socket); //dong ket noi trao doi du lieu voi client
 	if (retcode == SOCKET_ERROR)
 	{
@@ -154,8 +196,6 @@ int main()
 	}
 	cout << "Return Code : " << retcode << endl;
 
-	// Code danh ba o day 
-
 
 	WSACleanup();
 	cout << "Server has ended !" << endl;
@@ -163,3 +203,10 @@ int main()
 	return 0;
 
 }
+
+
+void truyvan_1_danhba(ifstream& f) //Yeu cau 2
+{
+
+}
+
