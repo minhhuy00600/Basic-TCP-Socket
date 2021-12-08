@@ -1,5 +1,23 @@
 #include"Header.h"
 
+/*
+void nhan_danhba(char Buffer[4096], SOCKET& socket_descriptor)
+{
+	int check;
+	while (true)
+	{
+		Sleep(20);
+		check = recv(socket_descriptor, Buffer, sizeof Buffer, 0);
+		if (check != SOCKET_ERROR && strcmp(Buffer, "end") != 0)
+		{
+			send(socket_descriptor, "ok", sizeof "ok", 0);
+			std::cout << Buffer << endl;
+		}
+		else break;
+	}
+}
+*/
+
 int main()
 {
 	WORD wVersionRequested;
@@ -117,18 +135,64 @@ int main()
 	printf("Bytes received : %d\n", length);
 	printf("Message : %s\n", Buffer);
 	cout << endl << endl;
-	system("pause");
+	std::system("pause");
 
-	system("CLS");
+
+
+	std::system("CLS");
+
+	char num[25];
+	std::cout << "1. Nhan danh ba." << endl;
+	std::cout << "2. Lay thong tin 1 thanh vien." << endl;
+
+	std::cout << "Input number you want : ";
+	cin >> num;
+	send(socket_descriptor, num, sizeof num, 0);
+	recv(socket_descriptor, Buffer, sizeof Buffer, 0);
 	
-	int i = 0;
-	while (true)
+	//Cau 1:
+	if (strcmp(num, "1") == 0)
 	{
-		recv(socket_descriptor, Buffer, sizeof Buffer, 0);
-		cout << Buffer << endl;
-		i++;
-		if (i == 17)break;
+		std::system("CLS");
+		std::cout << Buffer << endl;
+		int check;
+		while (true)
+		{
+			check = recv(socket_descriptor, Buffer, sizeof Buffer, 0);
+			if (check != SOCKET_ERROR && strcmp(Buffer, "end") != 0)
+			{
+				send(socket_descriptor, "ok", sizeof "ok", 0);
+				std::cout << Buffer << endl;
+			}
+			else break;
+		}
 	}
+
+	//Cau 2:
+	else if (strcmp(num, "2") == 0)
+	{
+		std::system("CLS");
+		std::cout << Buffer << endl;
+		char input[255];
+		cin >> input;
+		std::system("CLS");
+		send(socket_descriptor, input, sizeof input, 0);
+		int check;
+		
+		while (true)
+		{
+			check = recv(socket_descriptor, Buffer, sizeof Buffer, 0);
+			if (check != SOCKET_ERROR && strcmp(Buffer, "end") != 0)
+			{
+				send(socket_descriptor, "ok", sizeof "ok", 0);
+				std::cout << Buffer << endl;
+			}
+			else break;
+		}
+	}
+	std::system("pause");
+
+
 	cout << "closesocket()\n";
 
 	retcode = closesocket(socket_descriptor);

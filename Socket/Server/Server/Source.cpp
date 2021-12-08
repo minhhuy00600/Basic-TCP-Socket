@@ -4,14 +4,47 @@ void truyvan_danhba(ifstream& f, SOCKET &new_socket) //Yeu cau 1
 {
 	f.open("thanhvien.txt", ios::app);
 	char temp[255];
+	char check[255] = "ok";
 	while (!f.eof())
 	{
 		f.getline(temp, 255);
-		cout << temp << endl;
-		send(new_socket, temp, sizeof temp, 0);
+		if(strcmp(check, "ok") == 0) send(new_socket, temp, sizeof temp, 0);
+		recv(new_socket, check, sizeof check, 0);
 		Sleep(20);
 	}
+	send(new_socket, "end", sizeof "end", 0);
+	std::system("pause");
+	f.close();
+}
 
+void truyvan_1_danhba(ifstream& f, SOCKET &new_socket, char yeucau[]) //Yeu cau 2
+{
+	f.open("thanhvien.txt", ios::app);
+	char temp[255];
+	char check[255] = "ok";
+	while (!f.eof())
+	{
+		f.getline(temp, 255);
+		if(strcmp(temp, yeucau) == 0)
+		{
+			int i = 0;
+			while(true)
+			{
+				std::cout << temp << endl;
+			if (strcmp(check, "ok") == 0) send(new_socket, temp, sizeof temp, 0);
+				recv(new_socket, check, sizeof check, 0);
+				f.getline(temp, 255);
+			if (strcmp(temp, " ") == 0 || strlen(temp) == 0) break;
+			i++;
+			Sleep(20);
+			}
+		}
+		Sleep(20);
+	}
+	//send(new_socket, "Thanh vien ban nhap khong hop le", sizeof "Thanh vien ban nhap khong hop le", 0);
+	//recv(new_socket, check, sizeof check, 0);
+	if (strcmp(check, "ok") == 0) send(new_socket, "end", sizeof "end", 0);
+	std::system("pause");
 	f.close();
 }
 
@@ -36,17 +69,18 @@ int main()
 
 	ifstream open; // doc file
 
-	cout << "Initializing Winsock... " << endl;
+	std::cout << "Initializing Winsock... " << endl;
 
 	int wsOk = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (wsOk != 0)
 	{
-		cout << "Can't initialize winsock. Exiting... !" << WSAGetLastError() << endl;
+		std::cout << "Can't initialize winsock. Exiting... !" << WSAGetLastError() << endl;
 		WSACleanup();
 		return 0;
 	}
 
-	cout << "Server started..." << endl << endl;
+	std::cout << "Server started..." << endl << endl;
+
 	/*
 	ZeroMemory(&sin, sizeof(sin));
 	sin.sin_family = AF_INET;
@@ -69,7 +103,7 @@ int main()
 	socket_descriptor = socket(PF_INET, SOCK_STREAM, 0);
 	if (socket_descriptor == INVALID_SOCKET)
 	{
-		cout << "Socket creation failed" << WSAGetLastError() << endl;
+		std::cout << "Socket creation failed" << WSAGetLastError() << endl;
 		WSACleanup();
 		return 0;
 	}
@@ -80,103 +114,102 @@ int main()
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);// inet_addr(c
 
 
-	cout << "Bind()..." << endl;
+	std::cout << "Bind()..." << endl;
 	retcode = bind(socket_descriptor, (struct sockaddr*)&sin, sizeof(sin));
 	if (retcode == SOCKET_ERROR)
 	{
-		cout << "Bind failed with error : " << WSAGetLastError() << endl;
+		std::cout << "Bind failed with error : " << WSAGetLastError() << endl;
 		closesocket(socket_descriptor);
 		WSACleanup();
 		return 1;
 	}
-	cout << "Return code: " << retcode << endl << endl;
+	std::cout << "Return code: " << retcode << endl << endl;
 
-	cout << "Listening ..." << endl;
+	std::cout << "Listening ..." << endl;
 	retcode = listen(socket_descriptor, 0);
 	if (retcode == SOCKET_ERROR)
 	{
-		cout << "Listening failed ! Exiting ... " << WSAGetLastError() << endl;
+		std::cout << "Listening failed ! Exiting ... " << WSAGetLastError() << endl;
 		WSACleanup();
 		return 1;
 	}
-	cout << "Return code: " << retcode << endl << endl;
+	std::cout << "Return code: " << retcode << endl << endl;
 
-	cout << "Accept()" << endl;
+	std::cout << "Accept()" << endl;
 	int addrlen = sizeof(new_sin);
 	new_socket = accept(socket_descriptor, (struct sockaddr*)&new_sin, &addrlen);
 
 	if (new_socket == INVALID_SOCKET)
 	{
-		cout << "Accept failed ..." << WSAGetLastError() << endl;
+		std::cout << "Accept failed ..." << WSAGetLastError() << endl;
 		WSACleanup();
 		return 1;
 	}
 
-	cout << "New Socket Descriptor : " << new_socket << endl;
-	cout << "Remote Port : " << ntohs(new_sin.sin_port) << endl;
-	cout << "Host Address : " << inet_ntoa(new_sin.sin_addr) << endl;
-	cout << endl;
+	std::cout << "New Socket Descriptor : " << new_socket << endl;
+	std::cout << "Remote Port : " << ntohs(new_sin.sin_port) << endl;
+	std::cout << "Host Address : " << inet_ntoa(new_sin.sin_addr) << endl;
+	std::cout << endl;
 
-	cout << "Gethostbyaddr : " << inet_ntoa(new_sin.sin_addr) << endl;
+	std::cout << "Gethostbyaddr : " << inet_ntoa(new_sin.sin_addr) << endl;
 	memcpy(ClientAddr, &new_sin.sin_addr, sizeof(ClientAddr));
 	pClientHostEnt = gethostbyaddr(ClientAddr, sizeof(ClientAddr), PF_INET);
 	if (pClientHostEnt == NULL)
 	{
-		cout << "Get host by address failed :" << WSAGetLastError() << endl;
+		std::cout << "Get host by address failed :" << WSAGetLastError() << endl;
 		WSACleanup();
 		return 1;
 	}
-	cout << "Remote Host : " << pClientHostEnt->h_name << endl;
-	cout << endl;
+	std::cout << "Remote Host : " << pClientHostEnt->h_name << endl;
+	std::cout << endl;
 
-	cout << "recv()" << endl;  // Nhan tin nhan tu client
+	std::cout << "recv()" << endl;  // Nhan tin nhan tu client
 
 	length = recv(new_socket, Buffer, sizeof Buffer, 0);
 	if (length == SOCKET_ERROR)
 	{
-		cout << "Receive failed." << WSAGetLastError() << endl;
+		std::cout << "Receive failed." << WSAGetLastError() << endl;
 		WSACleanup();
 		return 0;
 	}
-	cout << "Bytes received : " << length << endl;
-	cout << "Message :" << Buffer << endl;
+	std::cout << "Bytes received : " << length << endl;
+	std::cout << "Message :" << Buffer << endl;
 
 
-	cout << "send()" << endl;
+	std::cout << "send()" << endl;
 	retcode = send(new_socket, Message, sizeof Message, 0);
 	if (retcode == SOCKET_ERROR)
 	{
-		cout << "Send failed ." << WSAGetLastError() << endl;
+		std::cout << "Send failed ." << WSAGetLastError() << endl;
 		WSACleanup();
 		return 1;
 	}
-	cout << "Bytes Sent : " << retcode << endl << endl;
-	system("pause");
+	std::cout << "Bytes Sent : " << retcode << endl << endl;
+	std::system("pause");
 
-	system("CLS");
 
 	// Code danh ba o day
-	while (true)
+	cout << "Lang nghe client";
+	recv(new_socket, Buffer, sizeof Buffer, 0);
+	if (strcmp(Buffer, "1") == 0)
 	{
-		int key;
-		send(new_socket,
-			"Input number you want to do :\n1.Truy van thong tin danh ba. ",
-			sizeof "Input number you want to do :\n1.Truy van thong tin danh ba. ",
-			0);
-		recv(new_socket, Buffer, sizeof Buffer, 0);
-		key = int(Buffer);
-			if(key == 1)
-				{
-					truyvan_danhba(open, new_socket);
-				}
-			else
-				{
-					send(new_socket, "Your number you input is invalid !", sizeof "Your number you input is invalid !", 0);
-					break;
-				}
-		}
+		std::system("CLS");
+		send(new_socket, "Truy van thong tin danh ba :", sizeof "Truy van thong tin danh ba :", 0);
+		std::system("CLS");
+		cout << "Truy van danh ba ..." << endl << endl;
+		truyvan_danhba(open, new_socket);
+		std::cout << endl;
 	}
-	cout << "closesocket()" << endl << endl;
+	else if (strcmp(Buffer, "2") == 0)
+	{
+		std::system("CLS");
+		send(new_socket, "Truy cap thong tin 1 thanh vien.\n Input MSSV : ",
+			sizeof "Truy cap thong tin 1 thanh vien.\n Input MSSV : ", 0);
+		recv(new_socket, Buffer, sizeof Buffer, 0);
+		truyvan_1_danhba(open, new_socket, Buffer);
+	}
+
+	cout<< "closesocket()" << endl << endl;
 
 	retcode = closesocket(new_socket); //dong ket noi trao doi du lieu voi client
 	if (retcode == SOCKET_ERROR)
@@ -203,10 +236,3 @@ int main()
 	return 0;
 
 }
-
-
-void truyvan_1_danhba(ifstream& f) //Yeu cau 2
-{
-
-}
-

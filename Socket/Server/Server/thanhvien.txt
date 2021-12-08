@@ -1,17 +1,14 @@
-Thanh vien 1 :
-Ma so : 19127424
-Ho va ten : Trieu Nguyen Minh Huy
-So dien thoai : 0935897583
-email : minhhuy00600@gmail.com
+19127424
+Trieu Nguyen Minh Huy
+0935897583
+minhhuy00600@gmail.com
 
-Thanh vien 2
-Ma so : 19127509
-Ho va ten : Truong The Phu
-So dien thoai : 09000313
-email : 19127509@student.hcmus.edu.vn
+19127509
+Truong The Phu
+09000313
+19127509@student.hcmus.edu.vn
 
-Thanh vien 3 :
-Ma so : 19127615
-Ho va ten : Nguyen Anh Tuan
-So dien thoai : 07724124
-email : natuan192@clc.fitus.edu.vn
+19127615
+Nguyen Anh Tuan
+07724124
+natuan192@clc.fitus.edu.vn

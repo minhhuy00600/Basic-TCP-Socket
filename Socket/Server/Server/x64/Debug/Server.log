@@ -1,43 +1,5 @@
 ﻿  Source.cpp
 D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Header.h(12,1): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': macro redefinition
 D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp : message : see previous definition of '_WINSOCK_DEPRECATED_NO_WARNINGS'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(167,19): warning C4311: '<function-style-cast>': pointer truncation from 'char *' to 'int'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(167,19): warning C4302: '<function-style-cast>': truncation from 'char *' to 'int'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(20,7): warning C4101: 'wVersionRequested': unreferenced local variable
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(179,7): error C2143: syntax error: missing ';' before '<<'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(179,7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(181,12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(181,24): error C2065: 'new_socket': undeclared identifier
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(182,2): error C2059: syntax error: 'if'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(183,2): error C2143: syntax error: missing ';' before '{'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(183,2): error C2447: '{': missing function header (old-style formal list?)
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(188,7): error C2143: syntax error: missing ';' before '<<'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(188,7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(188,2): error C2086: 'int cout': redefinition
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(179): message : see declaration of 'cout'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(190,12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(190,2): error C2374: 'retcode': redefinition; multiple initialization
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(181): message : see declaration of 'retcode'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(190,24): error C2065: 'socket_descriptor': undeclared identifier
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(191,2): error C2059: syntax error: 'if'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(192,2): error C2143: syntax error: missing ';' before '{'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(192,2): error C2447: '{': missing function header (old-style formal list?)
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(197,7): error C2143: syntax error: missing ';' before '<<'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(197,7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(197,2): error C2086: 'int cout': redefinition
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(179): message : see declaration of 'cout'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(200,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(200,14): warning C4273: 'WSACleanup': inconsistent dll linkage
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winSock2.h(2371,1): message : see previous definition of 'WSACleanup'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(201,7): error C2143: syntax error: missing ';' before '<<'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(201,7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(201,2): error C2086: 'int cout': redefinition
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(179): message : see declaration of 'cout'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(202,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(202,2): error C2365: 'system': redefinition; previous definition was 'function'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\stdlib.h(1211): message : see declaration of 'system'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(203,2): error C2059: syntax error: 'return'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(205,1): error C2059: syntax error: '}'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(205,1): error C2143: syntax error: missing ';' before '}'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(209,1): error C2143: syntax error: missing ';' before '{'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(209,1): error C2447: '{': missing function header (old-style formal list?)
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(54,7): warning C4101: 'wVersionRequested': unreferenced local variable
+  Server.vcxproj -> D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\x64\Debug\Server.exe
