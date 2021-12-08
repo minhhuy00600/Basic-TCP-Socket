@@ -1,0 +1,5 @@
+﻿  Source.cpp
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(151,36): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(154,37): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(156,19): error C4996: 'gethostbyaddr': Use getnameinfo() or GetNameInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(53,7): warning C4101: 'wVersionRequested': unreferenced local variable
