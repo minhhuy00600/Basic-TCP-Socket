@@ -1,5 +1,19 @@
 #include "Header.h"
 
+int64_t GetFileSize(const std::string& fileName) {
+	// no idea how to get filesizes > 2.1 GB in a C++ kind-of way.
+	// I will cheat and use Microsoft's C-style file API
+	FILE* f;
+	if (fopen_s(&f, fileName.c_str(), "rb") != 0) {
+		return -1;
+	}
+	_fseeki64(f, 0, SEEK_END);
+	const int64_t len = _ftelli64(f);
+	fclose(f);
+	return len;
+}
+
+
 void truyvan_danhba(ifstream& f, SOCKET &new_socket) //Yeu cau 1
 {
 	f.open("thanhvien.txt", ios::app);
@@ -46,6 +60,81 @@ void truyvan_1_danhba(ifstream& f, SOCKET &new_socket, char yeucau[]) //Yeu cau 
 	if (strcmp(check, "ok") == 0) send(new_socket, "end", sizeof "end", 0);
 	std::system("pause");
 	f.close();
+}
+
+void DownloadFile(SOCKET Socket)
+{
+	if (Socket == NULL) {
+		return;
+	}
+	char filename[1024];
+	char packet[1024];
+	char check[20] = "ok";
+	recv(Socket, filename, sizeof filename, 0);
+	
+	int size = GetFileSize(string(filename));
+	int i = 0;
+	/*
+	int32_t conv = htonl(size);
+	char* file_size = (char*)&conv;
+
+	send(Socket, file_size, sizeof packet, 0);
+	*/
+	FILE* fp = fopen(filename, "r");
+	if (!fp)
+	{
+		send(Socket, "The file is not exist", sizeof "The file is not exist", 0);
+		return;
+	}
+	else
+	{
+		fseek(fp, 0, SEEK_SET);
+		while (i < size)
+		{
+			fread(packet, strlen(packet) + 1, 1, fp);
+			if (strcmp(check, "ok") == 0) send(Socket, packet, sizeof packet, 0);
+			recv(Socket, check, sizeof check, 0);
+			i++;
+		}
+		send(Socket, "end", sizeof "end", 0);
+		fclose(fp);
+	}
+
+	/*
+	while (true) {
+		char filename[1024];
+		recv(Socket, filename, sizeof(filename), 0);
+		if (filename[0] == '.') {
+			break;
+		}
+		FILE* fp = fopen(filename, "r");
+		fseek(fp, 0, SEEK_END);
+		long FileSize = ftell(fp);
+		char GotFileSize[1024];
+		_itoa_s(FileSize, GotFileSize, 10);
+		send(Socket, GotFileSize, 1024, 0);
+		rewind(fp);
+		long SizeCheck = 0;
+		char* mfcc;
+		if (FileSize > 1499) {
+			mfcc = (char*)malloc(1500);
+			while (SizeCheck < FileSize) {
+				int Read = fread_s(mfcc, 1500, sizeof(char), 1500, fp);
+				int Sent = send(Socket, mfcc, Read, 0);
+				SizeCheck += Sent;
+			}
+		}
+		else {
+			mfcc = (char*)malloc(FileSize + 1);
+			fread_s(mfcc, FileSize, sizeof(char), FileSize, fp);
+			send(Socket, mfcc, FileSize, 0);
+		}
+		fclose(fp);
+		Sleep(500);
+		free(mfcc);
+	}
+	return;
+	*/
 }
 
 int main()
@@ -208,9 +297,40 @@ int main()
 		recv(new_socket, Buffer, sizeof Buffer, 0);
 		truyvan_1_danhba(open, new_socket, Buffer);
 	}
+	else if (strcmp(Buffer, "3") == 0)
+	{
+		send(new_socket, "Download file ...", sizeof "Download file ...", 0);
+		DownloadFile(new_socket);
+		/*
+		FILE* File;
+		char* Buffer;
+		unsigned long Size;
+
+		File = fopen("19127424.png", "rb");
+		if (!File)
+		{
+			printf("Error while readaing the file\n");
+		}
+
+		fseek(File, 0, SEEK_END);
+		Size = ftell(File);
+		fseek(File, 0, SEEK_SET);
+
+		Buffer = new char[Size];
+
+		fread(Buffer, Size, 1, File);
+		char cSize[MAX_PATH];
+		sprintf(cSize, "%i", Size);
+
+		fclose(File);
+
+		send(new_socket, cSize, MAX_PATH, 0); // File size
+		send(new_socket, Buffer, Size, 0); // File Binary
+		*/
+	}
 
 	cout<< "closesocket()" << endl << endl;
-
+	free(Buffer);
 	retcode = closesocket(new_socket); //dong ket noi trao doi du lieu voi client
 	if (retcode == SOCKET_ERROR)
 	{

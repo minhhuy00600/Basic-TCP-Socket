@@ -6,6 +6,7 @@
 #include<string>
 #include<Windows.h>
 #include<fstream>
+#include <cstdlib>
 
 
 #define DEFAULT_PORT "27015"

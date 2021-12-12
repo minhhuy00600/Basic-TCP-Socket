@@ -18,6 +18,68 @@ void nhan_danhba(char Buffer[4096], SOCKET& socket_descriptor)
 }
 */
 
+int64_t GetFileSize(const std::string& fileName) {
+	// no idea how to get filesizes > 2.1 GB in a C++ kind-of way.
+	// I will cheat and use Microsoft's C-style file API
+	FILE* f;
+	if (fopen_s(&f, fileName.c_str(), "rb") != 0) {
+		return -1;
+	}
+	_fseeki64(f, 0, SEEK_END);
+	const int64_t len = _ftelli64(f);
+	fclose(f);
+	return len;
+}
+
+
+void DownloadFile(SOCKET socket_descriptor) {
+	if (socket_descriptor == NULL) {
+		return;
+	}
+	while (1) {
+		printf("Input local filename: ");
+		char localfile[1024];
+		cin >> localfile;
+		if (localfile[0] == '.') {
+			send(socket_descriptor, localfile, sizeof(localfile), 0);
+			break;
+		}
+		printf("Input remote filename: ");
+		char filename[1024];
+		gets_s(filename, 1024);
+		if (filename[0] == '.') {
+			send(socket_descriptor, filename, sizeof(filename), 0);
+			break;
+		}
+		send(socket_descriptor, filename, sizeof(filename), 0);
+		char GotFileSize[1024];
+		recv(socket_descriptor, GotFileSize, 1024, 0);
+		long FileSize = atoi(GotFileSize);
+		long SizeCheck = 0;
+		FILE* fp = fopen(localfile, "w");
+		char* mfcc;
+		if (FileSize > 1499) {
+			mfcc = (char*)malloc(1500);
+			while (SizeCheck < FileSize) {
+				int Received = recv(socket_descriptor, mfcc, 1500, 0);
+				SizeCheck += Received;
+				fwrite(mfcc, 1, Received, fp);
+				fflush(fp);
+				printf("Filesize: %d\nSizecheck: %d\nReceived: %d\n\n", FileSize, SizeCheck, Received);
+			}
+		}
+		else {
+			mfcc = (char*)malloc(FileSize + 1);
+			int Received = recv(socket_descriptor, mfcc, FileSize, 0);
+			fwrite(mfcc, 1, Received, fp);
+			fflush(fp);
+		}
+		fclose(fp);
+		Sleep(500);
+		free(mfcc);
+	}
+}
+
 int main()
 {
 	WORD wVersionRequested;
@@ -35,22 +97,22 @@ int main()
 	char Buffer[4096];
 	int length;
 
-	cout << "WSAStartup()" << endl;
+	std::cout << "WSAStartup()" << endl;
 	wVersionRequested = MAKEWORD(2, 2);
 	retcode = WSAStartup(wVersionRequested, &wsaData);
 	if (retcode != 0)
 	{
-		cout << "Startup failed : " << WSAGetLastError();
+		std::cout << "Startup failed : " << WSAGetLastError();
 		closesocket(socket_descriptor);
 		WSACleanup();
 		return 0;
 	}
-	cout << "Return Code : " << retcode << endl;
+	std::cout << "Return Code : " << retcode << endl;
 	printf("Version Used : %i.%i\n", LOBYTE(wsaData.wVersion), HIBYTE(wsaData.wVersion));
 	printf("Version Supported : %i.%i\n", LOBYTE(wsaData.wHighVersion), HIBYTE(wsaData.wHighVersion));
 	printf("Implementation : %s\n", wsaData.szDescription);
 	printf("System Status : %s\n", wsaData.szSystemStatus);
-	cout << endl;
+	std::cout << endl;
 
 	if (LOBYTE(wsaData.wVersion) != LOBYTE(wVersionRequested) || HIBYTE(wsaData.wVersion) != HIBYTE(wVersionRequested))
 	{
@@ -59,12 +121,12 @@ int main()
 		return 0;
 	}
 
-	cout << "Socket()\n";
+	std::cout << "Socket()\n";
 	socket_descriptor = socket(PF_INET, SOCK_STREAM, 0);
 	if (socket_descriptor == INVALID_SOCKET)
 	{
-		cout << "Socket creation failed : " << WSAGetLastError() << endl;
-		cout << "Socket Descriptor : " << socket_descriptor;
+		std::cout << "Socket creation failed : " << WSAGetLastError() << endl;
+		std::cout << "Socket Descriptor : " << socket_descriptor;
 	}
 
 	struct sockaddr_in {
@@ -103,38 +165,38 @@ int main()
 		WSACleanup();
 		return 0;
 	}
-	cout << "connect()\n";
+	std::cout << "connect()\n";
 
 	retcode = connect(socket_descriptor, (struct sockaddr*)&sin, sizeof(sin));
 	if (retcode == SOCKET_ERROR)
 	{
-		cout << "Connect failed : " << WSAGetLastError();
+		std::cout << "Connect failed : " << WSAGetLastError();
 		return 0;
 	}
 	printf("Return Code : %d\n", retcode);
-	cout << endl;
+	std::cout << endl;
 
-	cout << "send()\n";  //Gui tin nhan len server .
+	std::cout << "send()\n";  //Gui tin nhan len server .
 	retcode = send(socket_descriptor, Message, sizeof Message, 0);
 	if (retcode == SOCKET_ERROR)
 	{
-		cout << "Send failed : " << WSAGetLastError();
+		std::cout << "Send failed : " << WSAGetLastError();
 		return 0;
 	}
 	printf("Bytes Sent : %d\n", retcode);
-	cout << endl;
+	std::cout << endl;
 
-	cout << "recv()\n";
+	std::cout << "recv()\n";
 
 	length = recv(socket_descriptor, Buffer, sizeof Buffer, 0);
 	if (length == SOCKET_ERROR)
 	{
-		cout << "Receive failed : " << WSAGetLastError();
+		std::cout << "Receive failed : " << WSAGetLastError();
 		return 0;
 	}
 	printf("Bytes received : %d\n", length);
 	printf("Message : %s\n", Buffer);
-	cout << endl << endl;
+	std::cout << endl << endl;
 	std::system("pause");
 
 
@@ -144,6 +206,7 @@ int main()
 	char num[25];
 	std::cout << "1. Nhan danh ba." << endl;
 	std::cout << "2. Lay thong tin 1 thanh vien." << endl;
+	std::cout << "3.Download file anh." << endl;
 
 	std::cout << "Input number you want : ";
 	cin >> num;
@@ -190,10 +253,110 @@ int main()
 			else break;
 		}
 	}
+
+	//Cau 3:
+	else if (strcmp(num, "3") == 0)
+	{
+		if (socket_descriptor == NULL)
+		{
+			return 0;
+		}
+		std::cout << Buffer << endl;
+
+
+		printf("Input filename: ");
+
+		char localfile[1024];
+		char packet[1024]; // Nhan du lieu file tu server
+		int check; // Check du lieu
+		cin >> localfile;
+
+		FILE* fp = fopen(localfile, "w");
+
+		send(socket_descriptor, localfile, sizeof localfile, 0);
+		while (true)
+		{
+			check = recv(socket_descriptor, packet, sizeof packet, 0);
+			if (check != INVALID_SOCKET && strcmp(packet, "end") != 0)
+			{
+				send(socket_descriptor, "ok", sizeof "ok", 0);
+				fwrite(packet, strlen(packet) + 1, 1, fp);
+				break;
+			}
+			else break;
+		}
+		fclose(fp);
+	}
+			/*
+			if (localfile[0] == '.') {
+				send(socket_descriptor, localfile, sizeof(localfile), 0);
+				break;
+			}
+			printf("Input remote filename: ");
+			char filename[1024];
+			gets_s(filename, 1024);
+			if (filename[0] == '.') {
+				send(socket_descriptor, filename, sizeof(filename), 0);
+				break;
+			}
+			
+			send(socket_descriptor, filename, sizeof(filename), 0);
+			char GotFileSize[1024];
+			recv(socket_descriptor, GotFileSize, 1024, 0);
+			long FileSize = atoi(GotFileSize);
+			long SizeCheck = 0;
+			
+			FILE* fp = fopen(localfile, "w");
+			char* mfcc;
+			if (FileSize > 1499) {
+				mfcc = (char*)malloc(1500);
+				while (SizeCheck < FileSize) {
+					int Received = recv(socket_descriptor, mfcc, 1500, 0);
+					SizeCheck += Received;
+					fwrite(mfcc, 1, Received, fp);
+					fflush(fp);
+					printf("Filesize: %d\nSizecheck: %d\nReceived: %d\n\n", FileSize, SizeCheck, Received);
+				}
+			}
+			else {
+				mfcc = (char*)malloc(FileSize + 1);
+				int Received = recv(socket_descriptor, mfcc, FileSize, 0);
+				fwrite(mfcc, 1, Received, fp);
+				fflush(fp);
+			}
+			fclose(fp);
+			Sleep(500);
+			free(mfcc);
+			*/
+
+		// DownloadFile(socket_descriptor);
+
+		/*
+		printf("Receiving file .. \n");
+
+		int Size;
+		char* Filesize = new char[1024];
+
+		if (recv(socket_descriptor, Filesize, 1024, 0)) // File size
+		{
+			Size = atoi((const char*)Filesize);
+			printf("File size: %d\n", Size);
+		}
+
+		char* temp = new char[Size];
+
+		if (recv(socket_descriptor, temp, Size, 0)) // File Binary
+		{
+			FILE* File;
+			File = fopen("19127424.png", "wb");
+			fwrite((const char*)temp, 1, Size, File);
+			fclose(File);
+		}
+		*/
 	std::system("pause");
 
 
-	cout << "closesocket()\n";
+	std::cout << "closesocket()\n";
 
 	retcode = closesocket(socket_descriptor);
 	if (retcode == SOCKET_ERROR)
