@@ -1,6 +1,0 @@
-﻿  Source.cpp
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Header.h(13,1): warning C4005: '_WINSOCK_DEPRECATED_NO_WARNINGS': macro redefinition
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp : message : see previous definition of '_WINSOCK_DEPRECATED_NO_WARNINGS'
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(75,11): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(83,13): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Socket\Server\Server\Source.cpp(142,7): warning C4101: 'wVersionRequested': unreferenced local variable

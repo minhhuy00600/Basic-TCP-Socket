@@ -1,0 +1,7 @@
+﻿  Source.cpp
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(75,11): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(83,13): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(240,36): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(243,37): error C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(245,19): error C4996: 'gethostbyaddr': Use getnameinfo() or GetNameInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+D:\Year 3\Mang may tinh\Project Socket\Project1-Socket\Source\Server\Server\Source.cpp(142,7): warning C4101: 'wVersionRequested': unreferenced local variable
