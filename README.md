@@ -1,4 +1,6 @@
 # Basic-TCP-Socket
 Đồ án môn học mạng máy tính - 19CLC - HCMUS
 
-Nhắn tin từ qua lại giữa client và server . Chưa làm được multithread và UI.
+Gửi yêu cầu request từ client -> server. Sau đó Server sẽ response và gửi lại danh sách người dùng trong danh bạ đến client.
+
+Chưa làm được multithread và UI.
